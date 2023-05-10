@@ -1,5 +1,6 @@
 const db = require("../models");
 const Tutorial = db.tutorials;
+const Comment = db.comments;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
@@ -151,6 +152,57 @@ exports.findAllPublished = (req, res) => {
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving tutorials."
+      });
+    });
+};
+
+exports.createComment = (req, res) => {
+  if (!req.body.text) {
+    res.status(400).send({
+      message: "Please Insert Your Comment!"
+    });
+    return;
+  }
+
+  //create new tutorial
+  const comment = {
+    name: req.userName,
+    text: req.body.text,
+    tutorialId: req.body.tutorialId,
+    userId: req.userId
+  };
+
+  Comment.create(comment)
+  .then(data => {
+    res.send(data);
+  })
+  .catch((err) => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
+
+exports.findCommentByTutorialId = (req, res) => {
+  if (!req.body.tutorialId) {
+    res.status(400).send({
+      message: "Please Insert Tutorial Id!"
+    });
+    return;
+  }
+
+  const tutorialId = req.params.tutorialId;
+  var condition = title ? { tutorialId: { [Op.like]: `%${tutorialId}%` } } : null;
+
+  Comment.findAll({ where: condition })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      req.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving Tutorials."
       });
     });
 };

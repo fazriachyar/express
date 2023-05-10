@@ -7,6 +7,12 @@ module.exports = app => {
   // create new tutorial
   router.post("/",[authJwt.verifyToken], tutorials.create);
 
+  // create new comment
+  router.post("/create-comment",[authJwt.verifyToken], tutorials.createComment);
+
+  // getAll comments
+  router.get("/",[authJwt.verifyToken], tutorials.findCommentByTutorialId);
+
   // getAll tutorials
   router.get("/", tutorials.findAll);
 
