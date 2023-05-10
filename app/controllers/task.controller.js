@@ -1,10 +1,10 @@
 const db = require("../models");
-const Tutorial = db.tutorials;
+const Task = db.tasks;
 const Comment = db.comments;
 const User = db.user;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Tutorial
+// Create and Save a new Task
 exports.create = (req, res) => {
   // validate request
   if (!req.body.title) {
@@ -14,145 +14,145 @@ exports.create = (req, res) => {
     return;
   }
 
-  //create new tutorial
-  const tutorial = {
+  //create new task
+  const task = {
     title: req.body.title,
     description: req.body.description,
     published: req.body.published ? req.body.published : false
   };
 
   //save to db
-  Tutorial.create(tutorial)
+  Task.create(task)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating Tutorial."
+          err.message || "Some error occurred while creating Task."
       });
     });
 };
 
-// Retrieve all Tutorials from the database.
+// Retrieve all Tasks from the database.
 exports.findAll = (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-  Tutorial.findAll({ where: condition })
+  Task.findAll({ where: condition })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       req.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving Tutorials."
+          err.message || "Some error occurred while retrieving Tasks."
       });
     });
 };
 
-// Find a single Tutorial with an id
+// Find a single Task with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Tutorial.findByPk(id)
+  Task.findByPk(id)
     .then(data => {
       if (data) {
         res.send(data);
       }
       else {
         res.status(404).send({
-          message: `Cannot find tutorial with id=${id}.`
+          message: `Cannot find task with id=${id}.`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Tutorial with id=" + id
+        message: "Error retrieving Task with id=" + id
       });
     });
 };
 
-// Update a Tutorial by the id in the request
+// Update a Task by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Tutorial.update(req.body, {
+  Task.update(req.body, {
     where: { id: id }
   })
     .then(
       num => {
         if (num == 1) {
           res.send({
-            message: "Tutorial was updated successfully."
+            message: "Task was updated successfully."
           });
         }
         else {
           res.send({
-            message: `Tutorial not found or req.body is not defined.`
+            message: `Task not found or req.body is not defined.`
           });
         }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Tutorial with id=" + id
+        message: "Error updating Task with id=" + id
       });
     });
 };
 
-// Delete a Tutorial with the specified id in the request
+// Delete a Task with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Tutorial.destroy({
+  Task.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Tutorial was deleted successfully!"
+          message: "Task was deleted successfully!"
         });
       }
       else {
         res.send({
-          message: "Tutorial not found or req.body is not defined."
+          message: "Task not found or req.body is not defined."
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete Tutorial with id=" + id
+        message: "Could not delete Task with id=" + id
       });
     });
 };
 
-// Delete all Tutorials from the database.
+// Delete all Tasks from the database.
 exports.deleteAll = (req, res) => {
-  Tutorial.destroy({
+  Task.destroy({
     where: {},
     truncate: false
   })
     .then(nums => {
-      res.send({ message: `${nums} Tutorials were deleted successfully` });
+      res.send({ message: `${nums} Tasks were deleted successfully` });
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while removing all tutorials."
+          err.message || "Some error occurred while removing all tasks."
       });
     });
 };
 
-// Find all published Tutorials
+// Find all published Tasks
 exports.findAllPublished = (req, res) => {
-  Tutorial.findAll({ where: { published: true } })
+  Task.findAll({ where: { published: true } })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Some error occurred while retrieving tasks."
       });
     });
 };
@@ -174,7 +174,7 @@ exports.createComment = (req, res) => {
         const comment = {
           name: data.username,
           text: req.body.text,
-          tutorialId: req.body.tutorialId,
+          taskId: req.body.taskId,
           userId: req.userId
         };
 
@@ -197,21 +197,21 @@ exports.createComment = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Tutorial with id=" + id
+        message: "Error retrieving Task with id=" + id
       });
     });
 };
 
-exports.findCommentByTutorialId = (req, res) => {
-  if (!req.body.tutorialId) {
+exports.findCommentByTaskId = (req, res) => {
+  if (!req.body.taskId) {
     res.status(400).send({
-      message: "Please Insert Tutorial Id!"
+      message: "Please Insert Task Id!"
     });
     return;
   }
 
-  const tutorialId = req.params.tutorialId;
-  var condition = title ? { tutorialId: { [Op.like]: `%${tutorialId}%` } } : null;
+  const taskId = req.params.taskId;
+  var condition = title ? { taskId: { [Op.like]: `%${taskId}%` } } : null;
 
   Comment.findAll({ where: condition })
     .then(data => {
@@ -220,7 +220,7 @@ exports.findCommentByTutorialId = (req, res) => {
     .catch(err => {
       req.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving Tutorials."
+          err.message || "Some error occurred while retrieving Tasks."
       });
     });
 };

@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
   res.json({message: "success initialization."});
 });
 
-require("./app/routes/tutorial.routes")(app);
+require("./app/routes/task.routes")(app);
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 

@@ -18,15 +18,21 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
+db.tasks = require("./task.model.js")(sequelize, Sequelize);
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.comments = require("../models/comment.model.js")(sequelize, Sequelize);
 
-db.tutorials.hasMany(db.comments, { as: "comments" });
-db.comments.belongsTo(db.tutorials, {
-  foreignKey: "tutorialId",
-  as: "tutorial",
+db.user.hasMany(db.tasks, { as: "tasks" });
+db.tasks.belongsTo(db.user, {
+  foreignKey: "userId",
+  as: "users"
+})
+
+db.tasks.hasMany(db.comments, { as: "comments" });
+db.comments.belongsTo(db.tasks, {
+  foreignKey: "taskId",
+  as: "task",
 });
 
 db.user.hasMany(db.comments, { as: "comments" });

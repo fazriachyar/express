@@ -1,5 +1,5 @@
 module.exports = (sequilize, Sequelize) => {
-  const Tutorial = sequilize.define("tutorial",{
+  const Task = sequilize.define("task",{
     title: {
       type: Sequelize.STRING
     },
@@ -11,5 +11,5 @@ module.exports = (sequilize, Sequelize) => {
     }
   });
 
-  return Tutorial;
+  return Task;
 };
