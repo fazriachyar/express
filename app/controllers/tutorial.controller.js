@@ -1,6 +1,7 @@
 const db = require("../models");
 const Tutorial = db.tutorials;
 const Comment = db.comments;
+const User = db.user;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
@@ -164,24 +165,41 @@ exports.createComment = (req, res) => {
     return;
   }
 
-  //create new tutorial
-  const comment = {
-    name: req.userName,
-    text: req.body.text,
-    tutorialId: req.body.tutorialId,
-    userId: req.userId
-  };
+  const id = req.userId;
 
-  Comment.create(comment)
-  .then(data => {
-    res.send(data);
-  })
-  .catch((err) => {
-    res.status(500).send({
-      message:
-        err.message || "Some error occurred while retrieving tutorials."
+  User.findByPk(id)
+    .then(data => {
+      if (data) {
+        //create new comment
+        const comment = {
+          name: data.username,
+          text: req.body.text,
+          tutorialId: req.body.tutorialId,
+          userId: req.userId
+        };
+
+        Comment.create(comment)
+        .then(data => {
+          res.send(data);
+        })
+        .catch((err) => {
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while inserting."
+          });
+        });
+      }
+      else {
+        res.status(404).send({
+          message: `Cannot find user with id=${id}.`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Tutorial with id=" + id
+      });
     });
-  });
 };
 
 exports.findCommentByTutorialId = (req, res) => {
