@@ -16,6 +16,7 @@ app.use(express.urlencoded({ exrended: true}));
 // db.sequelize.sync()
 //   .then(() => {
 //     console.log("Synced db.");
+//     initial();
 //   })
 //   .catch((err) => {
 //     console.log("Failed to sync db: " + err.message);
@@ -50,6 +51,7 @@ app.get("/", (req, res) => {
 require("./app/routes/tutorial.routes")(app);
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
+require('./app/routes/changelog.routes')(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
