@@ -1,17 +1,17 @@
 module.exports = (sequilize, Sequelize) => {
-  const Product = sequilize.define("product",{
+  const Product = sequilize.define("product", {
     name: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     quantity: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
     },
     weight: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
     },
     published: {
-      type: Sequelize.BOOLEAN
-    }
+      type: Sequelize.BOOLEAN,
+    },
   });
 
   return Product;

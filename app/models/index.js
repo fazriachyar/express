@@ -1,7 +1,7 @@
 const dbConfig = require("../config/db.config.js");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-  host: dbConfig.HOST ,
+  host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   operatorAliases: false,
 
@@ -9,8 +9,8 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle
-  }
+    idle: dbConfig.pool.idle,
+  },
 });
 
 const db = {};
@@ -27,8 +27,8 @@ db.product = require("../models/product.model.js")(sequelize, Sequelize);
 db.user.hasMany(db.tasks, { as: "tasks" });
 db.tasks.belongsTo(db.user, {
   foreignKey: "userId",
-  as: "users"
-})
+  as: "users",
+});
 
 db.tasks.hasMany(db.comments, { as: "comments" });
 db.comments.belongsTo(db.tasks, {
@@ -45,12 +45,12 @@ db.comments.belongsTo(db.user, {
 db.role.belongsToMany(db.user, {
   through: "user_roles",
   foreignKey: "roleId",
-  otherKey: "userId"
+  otherKey: "userId",
 });
 db.user.belongsToMany(db.role, {
   through: "user_roles",
   foreignKey: "userId",
-  otherKey: "roleId"
+  otherKey: "roleId",
 });
 
 db.ROLES = ["user", "admin", "moderator"];
