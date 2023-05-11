@@ -18,7 +18,8 @@ exports.create = (req, res) => {
   const task = {
     title: req.body.title,
     description: req.body.description,
-    published: req.body.published ? req.body.published : false
+    published: req.body.published ? req.body.published : false,
+    userId: req.userId
   };
 
   //save to db
@@ -178,9 +179,11 @@ exports.createComment = (req, res) => {
           userId: req.userId
         };
 
+        const name = data.username;
+
         Comment.create(comment)
         .then(data => {
-          res.send(data);
+          res.send({ message: `Insert Comment Success by ${name}.` });
         })
         .catch((err) => {
           res.status(500).send({
