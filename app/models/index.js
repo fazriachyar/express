@@ -22,6 +22,7 @@ db.tasks = require("./task.model.js")(sequelize, Sequelize);
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.comments = require("../models/comment.model.js")(sequelize, Sequelize);
+db.product = require("../models/product.model.js")(sequelize, Sequelize);
 
 db.user.hasMany(db.tasks, { as: "tasks" });
 db.tasks.belongsTo(db.user, {

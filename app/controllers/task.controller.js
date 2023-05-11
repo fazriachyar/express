@@ -127,23 +127,6 @@ exports.delete = (req, res) => {
     });
 };
 
-// Delete all Tasks from the database.
-exports.deleteAll = (req, res) => {
-  Task.destroy({
-    where: {},
-    truncate: false
-  })
-    .then(nums => {
-      res.send({ message: `${nums} Tasks were deleted successfully` });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all tasks."
-      });
-    });
-};
-
 // Find all published Tasks
 exports.findAllPublished = (req, res) => {
   Task.findAll({ where: { published: true } })

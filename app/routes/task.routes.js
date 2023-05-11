@@ -28,8 +28,5 @@ module.exports = app => {
   //delete task by id
   router.delete("/:id",[authJwt.verifyToken], tasks.delete);
 
-  //delete all tasks
-  router.delete("/",[authJwt.verifyToken], tasks.deleteAll);
-
   app.use('/api/tasks', router);
 }
