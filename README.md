@@ -1,5 +1,6 @@
 # express
-expressJS-sequelize-mysql
+
+expressJS-sequelize-jwt-mysql
 
 nodemon server.js
 
