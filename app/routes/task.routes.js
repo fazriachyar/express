@@ -1,4 +1,4 @@
-module.exports = app => {
+module.exports = function(app) {
   const { authJwt } = require("../middleware");
   const tasks = require("../controllers/task.controller.js");
 

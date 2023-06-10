@@ -1,4 +1,4 @@
-module.exports = (app) => {
+module.exports = function(app) {
   const { authJwt } = require("../middleware");
   const products = require("../controllers/product.controller.js");
 
@@ -8,19 +8,19 @@ module.exports = (app) => {
   router.post("/", [authJwt.verifyToken], products.create);
 
   // create new comment
-  router.post("/create-comment", [authJwt.verifyToken], products.createComment);
+  // router.post("/create-comment", [authJwt.verifyToken], products.createComment);
 
   // getAll comments
-  router.get("/", [authJwt.verifyToken], products.findCommentByTaskId);
+  // router.get("/", [authJwt.verifyToken], products.findCommentByTaskId);
 
   // getAll products
   router.get("/", products.findAll);
 
   // getAll published products
-  router.get("/published", products.findAllPublished);
+  // router.get("/published", products.findAllPublished);
 
   // find task by id
-  router.get("/:id", products.findOne);
+  // router.get("/:id", products.findOne);
 
   // update task by id
   router.put("/:id", [authJwt.verifyToken], products.update);
